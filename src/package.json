@@ -1,4 +1,8 @@
 {
+  "homepage" : "https://github.com/mete0rfish/mete0rfish.github.io/",
+  "scripts": {
+    "deploy": "gh-pages -d public"
+  },
   "dependencies": {
     "gh-pages": "^6.2.0"
   }
