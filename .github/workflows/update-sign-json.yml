@@ -26,6 +26,18 @@ jobs:
           git config --global user.name "github-actions"
           git config --global user.email "github-actions@github.com"
 
+      - name: Ensure sign-data.json is a valid JSON array
+        run: |
+          FILE="my-page/public/sign-data.json"
+          if [ ! -f "$FILE" ]; then
+            echo "[]" > "$FILE"
+          else
+            type=$(jq 'type' "$FILE" 2>/dev/null || echo "null")
+            if [ "$type" != "\"array\"" ]; then
+              echo "[]" > "$FILE"
+            fi
+          fi
+
       - name: Pull latest main
         run: |
           git stash --include-untracked
