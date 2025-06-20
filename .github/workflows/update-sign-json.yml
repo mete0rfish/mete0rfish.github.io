@@ -48,7 +48,6 @@ jobs:
 
       - name: Commit and push issue.json
         run: |
-          git pull --rebase origin main
           git add my-page/public/sign-data.json
           git commit -m "Update sign-data.json from #${{ github.event.issue.number }}" || echo "No changes to commit"
           git push https://x-access-token:${{ secrets.AUTH_TOKEN }}@github.com/mete0rfish/mete0rfish.github.io.git
