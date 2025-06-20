@@ -33,7 +33,7 @@ jobs:
               body: $body,
               created_at: $created_at,
               author: $author
-            }' > my-page/public/issue.json
+            }' > my-page/public/sign-data.json
 
       - name: Configure Git
         run: |
