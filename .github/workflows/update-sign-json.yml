@@ -27,9 +27,7 @@ jobs:
             --arg author "${{ github.event.issue.user.login }}" \
             '{
               id: ($id | tonumber),
-              title: $title,
               body: $body,
-              url: $url,
               created_at: $created_at,
               author: $author
             }' > public/issue.json
