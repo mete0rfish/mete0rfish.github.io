@@ -21,6 +21,17 @@ jobs:
       - name: Create public directory if not exists
         run: mkdir -p public
 
+      - name: Configure Git
+        run: |
+          git config --global user.name "github-actions"
+          git config --global user.email "github-actions@github.com"
+
+      - name: Pull latest main
+        run: |
+          git stash --include-untracked
+          git pull --rebase origin main
+          git stash pop || true
+
       - name: Generate issue.json
         run: |
           jq -n \
@@ -34,11 +45,6 @@ jobs:
               created_at: $created_at,
               author: $author
             }' > my-page/public/sign-data.json
-
-      - name: Configure Git
-        run: |
-          git config --global user.name "github-actions"
-          git config --global user.email "github-actions@github.com"
 
       - name: Commit and push issue.json
         run: |
