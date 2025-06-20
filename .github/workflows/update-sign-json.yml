@@ -44,4 +44,4 @@ jobs:
         run: |
           git add public/issue.json
           git commit -m "Update issue.json from #${{ github.event.issue.number }}" || echo "No changes to commit"
-          git push https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/mete0rfish/mete0rfish.github.io.git
+          git push https://x-access-token:${{ secrets.AUTH_TOKEN }}@github.com/mete0rfish/mete0rfish.github.io.git
