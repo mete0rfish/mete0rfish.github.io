@@ -34,7 +34,9 @@ jobs:
 
       - name: Generate issue.json
         run: |
-          jq -n \
+          FILE="my-page/public/sign-data.json"
+
+          new_entry=$(jq -n \
             --arg id "${{ github.event.issue.id }}" \
             --arg body "${{ github.event.issue.body }}" \
             --arg created_at "${{ github.event.issue.created_at }}" \
@@ -44,7 +46,10 @@ jobs:
               body: $body,
               created_at: $created_at,
               author: $author
-            }' > my-page/public/sign-data.json
+            }')
+
+          tmp_file=$(mktemp)
+          jq ". += [ $new_entry ]" "$FILE" > "$tmp_file" && mv "$tmp_file" "$FILE"
 
       - name: Commit and push issue.json
         run: |
