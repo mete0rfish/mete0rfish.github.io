@@ -42,6 +42,7 @@ jobs:
 
       - name: Commit and push issue.json
         run: |
+          git pull --rebase origin main
           git add public/issue.json
           git commit -m "Update issue.json from #${{ github.event.issue.number }}" || echo "No changes to commit"
           git push https://x-access-token:${{ secrets.AUTH_TOKEN }}@github.com/mete0rfish/mete0rfish.github.io.git
