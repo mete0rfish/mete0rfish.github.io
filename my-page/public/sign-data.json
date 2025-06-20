@@ -1,0 +1,14 @@
+[
+    {
+        "id": 1,
+        "message": "Hello",
+        "author": "Meteorfish",
+        "createdAt": "2025-06-20T17:17:24+09:00"
+    },
+    {
+        "id": 2,
+        "message": "Hello",
+        "author": "Meteorfish",
+        "createdAt": "2025-06-20T17:17:24+09:00"
+    }
+]
