@@ -1,9 +1,10 @@
 <template>
     <ul>
+        <h2>방명록</h2>
         <sign-component 
             v-for="sign in signs"
             :key="sign.id"
-            :message="sign.message"
+            :body="sign.body"
             :author="sign.author"
             :createdAt="sign.createdAt"
         ></sign-component>
@@ -33,9 +34,9 @@ export default {
                 console.log(data);
                 this.signs = data.map(sign => ({
                     id: sign.id,
-                    message: sign.message,
+                    body: sign.body,
                     author: sign.author,
-                    createdAt: sign.createdAt
+                    createdAt: sign.created_at
                 }));
             } catch (error) {
                 console.log(error);
@@ -51,6 +52,8 @@ export default {
 <style scoped>
 ul {
     list-style: none;
+    position: absolute;
+    right: 1rem;
 }
 
 li {
@@ -63,5 +66,9 @@ div {
     margin: 2rem auto;
     background-color: #c3c3c3;
     padding: 1rem;
+}
+
+h2 {
+    text-align: center;
 }
 </style>

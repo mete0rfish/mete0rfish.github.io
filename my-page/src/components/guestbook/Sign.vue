@@ -2,7 +2,7 @@
     <li>
         <base-card>
             <h3>{{ author }}</h3>
-            <p>{{ message }}</p>
+            <p>{{ body }}</p>
             <p>{{ createdAt }}</p>
         </base-card>
     </li>
@@ -11,7 +11,7 @@
 <script>
 export default {
     name: 'sign-component',
-    props: ['message', 'author', 'createdAt']
+    props: ['body', 'author', 'createdAt']
 }
 </script>
 
