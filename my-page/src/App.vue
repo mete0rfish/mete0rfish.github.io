@@ -1,23 +1,17 @@
 <template>
     <TheHeader />
-    <div>
-      <SignList />
-      <MenuList />
-    </div>
-    
+    <main>
+      <router-view></router-view>
+    </main>
 </template>
 
 <script>
 import TheHeader from './components/layouts/TheHeader.vue';
-import SignList from './components/guestbook/SignList.vue';
-import MenuList from './components/menu/MenuList.vue';
 
 export default {
   name: 'App',
   components: {
-    TheHeader,
-    SignList,
-    MenuList
+    TheHeader
   }
 }
 </script>
