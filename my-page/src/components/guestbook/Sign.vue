@@ -1,11 +1,11 @@
 <template>
-    <li>
+    <div class="sign-item">
         <base-card>
             <h3>{{ author }}</h3>
             <p>{{ body }}</p>
             <p>{{ createdAt }}</p>
         </base-card>
-    </li>
+    </div>
 </template>
 
 <script>
@@ -16,9 +16,13 @@ export default {
 </script>
 
 <style scoped>
-li {
-  margin: auto;
-  max-width: 40rem;
+.sign-item {
+  width: 100%;
+  margin-bottom: 1rem;
+}
+
+.sign-item :deep(.base-card) {
+  margin: 0;
 }
 
 p {
