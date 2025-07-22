@@ -1,13 +1,19 @@
 <template>
   <div class="projects-container">
     <h2>Projects</h2>
-    <p>프로젝트 페이지입니다.</p>
+    <p>개발에 참여한 팀 및 개인 프로젝트 목록</p>
+    <project-list></project-list>
   </div>
 </template>
 
 <script>
+import ProjectList from '../components/project/ProjectList.vue';
+
 export default {
-  name: 'ProjectsPage'
+  name: 'ProjectsPage',
+  components: {
+    ProjectList
+  }
 }
 </script>
 

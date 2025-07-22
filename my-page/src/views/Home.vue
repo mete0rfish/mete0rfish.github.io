@@ -15,6 +15,9 @@
             <img width="200" height="200" src="https://github.com/user-attachments/assets/af9c0493-e70d-46e4-a898-7e0b5228bd4b" alt="프로필 사진">
           </div>
         </div>
+        
+        <SkillsSection />
+        <ActivitiesSection />
       </div>
     </div>
     
@@ -26,11 +29,15 @@
 
 <script>
 import SignList from '../components/guestbook/SignList.vue'
+import SkillsSection from '../components/skills/SkillsSection.vue'
+import ActivitiesSection from '../components/activities/ActivitiesSection.vue'
 
 export default {
   name: 'HomePage',
   components: {
-    SignList
+    SignList,
+    SkillsSection,
+    ActivitiesSection
   }
 }
 </script>
@@ -92,6 +99,8 @@ export default {
 .profile-content h1 {
   color: #640032;
   margin-bottom: 1rem;
+  width: 100%;
+  text-align: center;
 }
 
 .profile-text {
