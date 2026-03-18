@@ -1,0 +1,59 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout title="About - Mete0rfish">
+	<h1>About Me</h1>
+	
+	<section class="about-content">
+		<p>안녕하세요! Mete0rfish 블로그에 방문해 주셔서 감사합니다.</p>
+		
+		<p>이곳은 제가 배우고 경험한 것들을 기록하는 개인적인 공간입니다. 주로 웹 개발, 새로운 프레임워크 탐구, 그리고 기술적인 문제 해결 과정들을 다룹니다.</p>
+
+		<h2>기술 스택</h2>
+		<ul>
+			<li>Frontend: Astro, React, TypeScript</li>
+			<li>Styling: CSS, Tailwind CSS</li>
+			<li>Tools: Git, GitHub Actions</li>
+		</ul>
+
+		<h2>Contact</h2>
+		<p>궁금한 점이 있으시다면 언제든 연락 주세요!</p>
+		<p>Email: <a href="mailto:your-email@example.com">your-email@example.com</a></p>
+	</section>
+</Layout>
+
+<style>
+	h1 {
+		font-size: 2.5rem;
+		margin-bottom: 2rem;
+	}
+
+	h2 {
+		font-size: 1.75rem;
+		margin: 2rem 0 1rem;
+	}
+
+	.about-content p {
+		margin-bottom: 1.25rem;
+		font-size: 1.1rem;
+	}
+
+	ul {
+		margin-bottom: 1.25rem;
+		padding-left: 1.5rem;
+	}
+
+	li {
+		margin-bottom: 0.5rem;
+	}
+
+	a {
+		color: var(--accent-color);
+		text-decoration: none;
+	}
+
+	a:hover {
+		text-decoration: underline;
+	}
+</style>

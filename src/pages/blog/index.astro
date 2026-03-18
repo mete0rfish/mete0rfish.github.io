@@ -1,0 +1,200 @@
+---
+import { getCollection } from 'astro:content';
+import Layout from '../../layouts/Layout.astro';
+
+// 모든 블로그 글을 가져와서 발행일 순으로 정렬합니다.
+const posts = (await getCollection('blog')).sort(
+	(a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
+);
+
+// 카테고리별 글 개수 계산
+const categories = posts.reduce((acc, post) => {
+	const category = post.data.category || 'Uncategorized';
+	acc[category] = (acc[category] || 0) + 1;
+	return acc;
+}, {} as Record<string, number>);
+
+const categoryList = Object.entries(categories).sort((a, b) => b[1] - a[1]);
+
+// 날짜 포맷팅 함수
+const formatDate = (date: Date) => {
+	return date.toLocaleDateString('ko-KR', {
+		year: 'numeric',
+		month: 'long',
+		day: 'numeric',
+	});
+};
+---
+
+<Layout title="Blog - Mete0rfish">
+	<div class="blog-header">
+		<h1>Blog</h1>
+		<p>기록하고 공유하는 공간입니다.</p>
+	</div>
+
+	<div class="blog-container">
+		<aside class="sidebar">
+			<section class="category-section">
+				<h2>Categories</h2>
+				<ul class="category-list">
+					<li>
+						<a href="/blog" class="active">All ({posts.length})</a>
+					</li>
+					{
+						categoryList.map(([name, count]) => (
+							<li>
+								<a href={`/blog/category/${name.toLowerCase()}`}>
+									{name} ({count})
+								</a>
+							</li>
+						))
+					}
+				</ul>
+			</section>
+		</aside>
+
+		<main class="post-feed">
+			<ul class="post-list">
+				{
+					posts.map((post) => (
+						<li class="post-item">
+							<article>
+								<div class="post-meta">
+									<span class="category-label">{post.data.category}</span>
+									<time datetime={post.data.pubDate.toISOString()}>
+										{formatDate(post.data.pubDate)}
+									</time>
+								</div>
+								<h2>
+									<a href={`/blog/${post.slug}/`}>{post.data.title}</a>
+								</h2>
+								<p class="description">{post.data.description}</p>
+								<div class="tags">
+									{post.data.tags.map((tag) => (
+										<span class="tag">#{tag}</span>
+									))}
+								</div>
+							</article>
+						</li>
+					))
+				}
+			</ul>
+		</main>
+	</div>
+</Layout>
+
+<style>
+	.blog-header {
+		margin-bottom: 3rem;
+		border-bottom: 1px solid #eee;
+		padding-bottom: 1rem;
+	}
+
+	h1 {
+		font-size: 2.5rem;
+		margin-bottom: 0.5rem;
+	}
+
+	.blog-container {
+		display: grid;
+		grid-template-columns: 200px 1fr;
+		gap: 3rem;
+	}
+
+	@media (max-width: 768px) {
+		.blog-container {
+			grid-template-columns: 1fr;
+		}
+		
+		.sidebar {
+			order: -1;
+		}
+	}
+
+	.sidebar h2 {
+		font-size: 1.25rem;
+		margin-bottom: 1rem;
+		color: var(--text-color);
+	}
+
+	.category-list {
+		list-style: none;
+		display: flex;
+		flex-direction: column;
+		gap: 0.5rem;
+	}
+
+	.category-list a {
+		text-decoration: none;
+		color: var(--muted-color);
+		font-size: 1rem;
+		transition: color 0.2s;
+	}
+
+	.category-list a:hover, .category-list a.active {
+		color: var(--accent-color);
+		font-weight: 600;
+	}
+
+	.post-list {
+		list-style: none;
+		display: flex;
+		flex-direction: column;
+		gap: 3rem;
+	}
+
+	.post-meta {
+		display: flex;
+		align-items: center;
+		gap: 1rem;
+		margin-bottom: 0.5rem;
+	}
+
+	.category-label {
+		background-color: var(--accent-color);
+		color: white;
+		font-size: 0.75rem;
+		padding: 0.1rem 0.5rem;
+		border-radius: 4px;
+		font-weight: 600;
+	}
+
+	.post-item time {
+		font-size: 0.9rem;
+		color: var(--muted-color);
+	}
+
+	.post-item h2 {
+		font-size: 1.75rem;
+		margin-bottom: 0.5rem;
+	}
+
+	.post-item h2 a {
+		text-decoration: none;
+		color: var(--text-color);
+		transition: color 0.2s;
+	}
+
+	.post-item h2 a:hover {
+		color: var(--accent-color);
+	}
+
+	.description {
+		color: #4b5563;
+		margin-bottom: 1rem;
+	}
+
+	.tags {
+		display: flex;
+		gap: 0.75rem;
+		flex-wrap: wrap;
+	}
+
+	.tag {
+		font-size: 0.85rem;
+		background-color: #f3f4f6;
+		padding: 0.2rem 0.6rem;
+		border-radius: 9999px;
+		color: #4b5563;
+	}
+</style>

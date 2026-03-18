@@ -1,0 +1,122 @@
+---
+import { getCollection } from 'astro:content';
+import Layout from '../../layouts/Layout.astro';
+
+// 동적 라우팅을 위한 getStaticPaths 정의
+export async function getStaticPaths() {
+	const posts = await getCollection('blog');
+	return posts.map((post) => ({
+		params: { slug: post.slug },
+		props: post,
+	}));
+}
+
+const post = Astro.props;
+const { Content } = await post.render();
+
+// 날짜 포맷팅 함수
+const formatDate = (date: Date) => {
+	return date.toLocaleDateString('ko-KR', {
+		year: 'numeric',
+		month: 'long',
+		day: 'numeric',
+	});
+};
+---
+
+<Layout title={post.data.title} description={post.data.description}>
+	<article class="post-content">
+		<header>
+			<time datetime={post.data.pubDate.toISOString()}>
+				{formatDate(post.data.pubDate)}
+			</time>
+			<h1>{post.data.title}</h1>
+			<div class="tags">
+				{post.data.tags.map((tag) => <span class="tag">#{tag}</span>)}
+			</div>
+			{post.data.heroImage && <img src={post.data.heroImage} alt="" />}
+			<hr />
+		</header>
+		<div class="content">
+			<Content />
+		</div>
+	</article>
+</Layout>
+
+<style>
+	.post-content header {
+		margin-bottom: 2rem;
+		text-align: center;
+	}
+
+	.post-content time {
+		color: var(--muted-color);
+		font-size: 0.9rem;
+	}
+
+	.post-content h1 {
+		font-size: 2.5rem;
+		margin: 1rem 0;
+	}
+
+	.post-content .tags {
+		display: flex;
+		justify-content: center;
+		gap: 0.75rem;
+		margin-bottom: 1.5rem;
+	}
+
+	.post-content hr {
+		border: none;
+		border-top: 1px solid #eee;
+		margin: 2rem 0;
+	}
+
+	/* Markdown 콘텐츠 스타일링 */
+	.content :global(h2) {
+		font-size: 1.75rem;
+		margin: 2rem 0 1rem;
+	}
+
+	.content :global(h3) {
+		font-size: 1.5rem;
+		margin: 1.5rem 0 1rem;
+	}
+
+	.content :global(p) {
+		margin-bottom: 1.25rem;
+	}
+
+	.content :global(ul), .content :global(ol) {
+		margin-bottom: 1.25rem;
+		padding-left: 1.5rem;
+	}
+
+	.content :global(li) {
+		margin-bottom: 0.5rem;
+	}
+
+	.content :global(code) {
+		background-color: #f3f4f6;
+		padding: 0.2rem 0.4rem;
+		border-radius: 4px;
+		font-size: 0.9em;
+	}
+
+	.content :global(pre) {
+		background-color: #1f2937;
+		color: white;
+		padding: 1rem;
+		border-radius: 8px;
+		overflow-x: auto;
+		margin-bottom: 1.25rem;
+	}
+
+	.content :global(blockquote) {
+		border-left: 4px solid var(--accent-color);
+		padding-left: 1rem;
+		font-style: italic;
+		color: #4b5563;
+		margin: 1.5rem 0;
+	}
+</style>
