@@ -21,6 +21,7 @@ pnpm-debug.log*
 .env.production
 .env.local
 .env.*.local
+src/content/blog/.notion-sync-map.json
 
 # OS Metadata
 .DS_Store

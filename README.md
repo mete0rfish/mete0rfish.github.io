@@ -45,6 +45,52 @@ heroImage: "/blog-placeholder.jpg" # 대표 이미지 경로 (선택 사항)
 Markdown 문법을 그대로 사용하실 수 있습니다.
 ```
 
+## Notion 데이터베이스에서 포스트 가져오기
+
+이 프로젝트는 빌드 전에 Notion 데이터베이스의 페이지들을 Markdown으로 동기화할 수 있습니다.
+
+### 1. Notion Integration 준비
+- Notion에서 Internal Integration 생성 후 토큰 발급
+- 가져올 데이터베이스 페이지에 해당 Integration을 `Invite`로 연결
+
+### 2. 환경 변수 설정
+루트에 `.env` 파일을 만들고 아래 값을 채웁니다.
+
+```bash
+NOTION_TOKEN=secret_xxxxx
+NOTION_DATABASE_ID=xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+```
+
+`NOTION_DATABASE_ID`는 데이터베이스 URL의 UUID(하이픈 포함/미포함 모두 가능)입니다.
+
+### 3. Notion 페이지 속성(권장)
+스크립트는 아래 속성명을 우선 탐색합니다. (없으면 기본값 사용)
+- 제목: `Title` 또는 `title` 또는 `이름` 또는 `Name`
+- 요약: `Description` 또는 `description` 또는 `요약`
+- 카테고리(select): `Category` 또는 `category` 또는 `카테고리`
+- 태그(multi_select): `Tags` 또는 `tags` 또는 `태그`
+- 발행일(date): `PubDate` 또는 `pubDate` 또는 `Published` 또는 `작성일`
+- 수정일(date): `Updated` 또는 `updatedDate` 또는 `수정일`
+- 슬러그(rich_text): `Slug` 또는 `slug` (없으면 제목으로 자동 생성)
+
+### 4. 실행
+```bash
+npm run sync:notion   # Notion -> src/content/blog/*.md 동기화
+npm run build         # sync:notion 후 Astro 빌드
+```
+
+기본 동작은 "이미 동기화된 페이지는 건너뜀"입니다.  
+강제로 재동기화하려면 아래처럼 실행하세요.
+
+```bash
+FORCE_NOTION_SYNC=1 npm run sync:notion
+```
+
+### 5. GitHub Actions 배포 시
+GitHub 저장소 Settings > Secrets and variables > Actions에 아래 Secret을 추가하세요.
+- `NOTION_TOKEN`
+- `NOTION_DATABASE_ID`
+
 ---
 
 ## 🚀 배포 및 관리
